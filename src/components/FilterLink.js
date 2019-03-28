@@ -2,13 +2,24 @@ import {connect} from "react-redux";
 import {setVisibilityFilterAction} from '../actions'
 import Link from './Link'
 
+const routeToFilter = (route) => {
+    switch (route) {
+        case 'all':
+            return 'SHOW_ALL';
+        case 'active':
+            return 'SHOW_ACTIVE';
+        case 'completed':
+            return 'SHOW_COMPLETED';
+    }
+};
+
 const mapStateToProps = (store, myProps) => ({
-    active: myProps.filter === store.visibilityFilter,
+    active: routeToFilter(myProps.filter) === store.visibilityFilter,
 });
 
 const mapDispatchToProps = (dispatch, myProps) => ({
     onClick() {
-        dispatch(setVisibilityFilterAction(myProps.filter))
+        dispatch(setVisibilityFilterAction(routeToFilter(myProps.filter)))
     }
 });
 
