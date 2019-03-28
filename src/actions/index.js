@@ -1,10 +1,10 @@
-let nextTodoId = 0;
+import {v4} from 'node-uuid'
 
 // actions
 export const addTodoAction = (text) => ({
     type: 'ADD_TODO',
     text: text,
-    id: nextTodoId++
+    id: v4()
 });
 
 export const setVisibilityFilterAction = (filter) => ({
