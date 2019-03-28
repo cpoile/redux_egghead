@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/test_react.iml" filepath="$PROJECT_DIR$/test_react.iml" />
+      <module fileurl="file://$PROJECT_DIR$/getting_started_with_redux_egghead.iml" filepath="$PROJECT_DIR$/getting_started_with_redux_egghead.iml" />
     </modules>
   </component>
 </project>
