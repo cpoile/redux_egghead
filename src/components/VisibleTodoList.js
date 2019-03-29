@@ -1,25 +1,29 @@
 import {connect} from "react-redux";
+import {withRouter} from 'react-router'
 import {toggleTodoAction} from '../actions'
 import TodoList from './TodoList'
 
 const getVisibleTodos = (todos, filter) => {
     return todos.filter(t => {
-        return filter === 'SHOW_ALL' ||
-            (filter === 'SHOW_ACTIVE' && !t.completed) ||
-            (filter === 'SHOW_COMPLETED' && t.completed)
+        return filter === 'all' ||
+            (filter === 'active' && !t.completed) ||
+            (filter === 'completed' && t.completed)
     });
 };
 
-const mapStateToTodoListProps = (state) => ({
-    todos: getVisibleTodos(state.todos, state.visibilityFilter)
+const mapStateToProps = (state, {params}) => ({
+    todos: getVisibleTodos(state.todos, params.filter || 'all')
 });
 
-const mapDispatchToTodoListProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch) => ({
     onTodoClick(id) {
         dispatch(toggleTodoAction(id))
     }
 });
 
-const VisibleTodoList = connect(mapStateToTodoListProps, mapDispatchToTodoListProps)(TodoList);
+const VisibleTodoList = withRouter(connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TodoList));
 
 export default VisibleTodoList
