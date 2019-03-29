@@ -6,5 +6,9 @@
       <excludeFolder url="file://$MODULE_DIR$/build" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="@types/react-redux" level="application" />
+    <orderEntry type="library" name="@types/react" level="application" />
+    <orderEntry type="library" name="@types/redux-router" level="application" />
+    <orderEntry type="library" name="Redux" level="project" />
   </component>
 </module>
