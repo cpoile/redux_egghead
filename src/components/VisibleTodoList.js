@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {withRouter} from 'react-router';
 import * as actions from '../actions';
-import {getVisibleTodos} from '../reducers';
+import {getVisibleTodos, getErrorMessage, getIsFetching} from '../reducers';
 import TodoList from './TodoList';
+import FetchError from './FetchError';
 
 // VisibleTodoList is a container component that enhances a
 // presentational component (TodoList) with data fetching logic
@@ -18,7 +19,7 @@ class VisibleTodoList extends Component {
         }
     }
 
-    // receiveTodos is in the props because it is passed in the connect below.
+    // fetchTodos is in the props because it is passed in the connect below.
     // it is the only way the redux store will know that the todos have been updated.
     fetchData() {
         const {filter, fetchTodos} = this.props;
@@ -29,10 +30,22 @@ class VisibleTodoList extends Component {
     // only toggleTodo needs to be renamed. The rest of the actions can be passed
     // directly through ...rest
     render() {
-        const {toggleTodo, ...rest} = this.props;
+        const {toggleTodoAction, errorMessage, isFetching, todos} = this.props;
+        if (isFetching && !todos.length) {
+            return <p>Loading...</p>
+        }
+        if (errorMessage && !todos.length) {
+            return (
+                <FetchError
+                    message={errorMessage}
+                    onRetry={() => this.fetchData()}
+                    />
+            );
+        }
+
         return <TodoList
-            {...rest}
-            onTodoClick={toggleTodo}
+            todos={todos}
+            onTodoClick={toggleTodoAction}
         />;
     }
 }
@@ -42,6 +55,8 @@ const mapStateToProps = (state, {params}) => {
     const filter = params.filter || 'all';
     return {
         todos: getVisibleTodos(state, filter),
+        errorMessage: getErrorMessage(state, filter),
+        isFetching: getIsFetching(state, filter),
         filter
     }
 };
