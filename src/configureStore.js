@@ -2,6 +2,7 @@ import {createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import createLogger from 'redux-logger';
 import todos from './reducers';
+import {composeWithDevTools} from 'redux-devtools-extension';
 
 const configureStore = () => {
     const middlewares = [thunk];
@@ -14,8 +15,9 @@ const configureStore = () => {
 
     return createStore(
         todos,
-        applyMiddleware(...middlewares)
-    );
+        composeWithDevTools(
+            applyMiddleware(...middlewares)
+        ));
 };
 
 export default configureStore
